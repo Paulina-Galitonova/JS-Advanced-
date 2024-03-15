@@ -1,7 +1,7 @@
 const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 
-const host = 'http://localhost:3000'; // Application host (NOT service host - that can be anything)
+const host = 'http://localhost:5500'; // Application host (NOT service host - that can be anything)
 
 const interval = 300;
 const DEBUG = false;
@@ -63,9 +63,9 @@ describe('E2E tests', function () {
   this.timeout(DEBUG ? 120000 : 7000);
   before(
     async () =>
-      (browser = await chromium.launch(
-        DEBUG ? { headless: false, slowMo } : {}
-      ))
+    (browser = await chromium.launch(
+      DEBUG ? { headless: false, slowMo } : {}
+    ))
   );
   after(async () => await browser.close());
   beforeEach(async () => {
@@ -207,7 +207,7 @@ describe('E2E tests', function () {
   });
 
   describe('Catalog', () => {
-    it('load catches', async () => {
+    it.only('load catches', async () => {
       const data = mockData.catalog;
       const { get } = await handle(endpoints.catalog);
       get(data);
@@ -302,6 +302,7 @@ describe('E2E tests', function () {
       get(data);
 
       await page.click('.load');
+
       const titles = await page.$$eval(`#catches .catch >> button`, (t) =>
         t.map((s) => s.disabled)
       );
@@ -321,6 +322,7 @@ describe('E2E tests', function () {
       get(data);
 
       await page.click('.load');
+      await page.waitForSelector('#catches');
       const titles = await page.$$eval(`#catches .catch >> button`, (t) =>
         t.map((s) => s.disabled)
       );
