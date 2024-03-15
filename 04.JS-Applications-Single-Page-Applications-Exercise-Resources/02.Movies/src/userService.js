@@ -11,6 +11,16 @@ async function register(data){
 return await post(endPoints.register,data);
 }
 
+async function login(data){
+    return await post(endPoints.login, data);
+}
+
+async function logout(){
+    return await get(endPoints.logout);
+}
+
 export{
-    register
+    register,
+    login,
+    logout
 }
