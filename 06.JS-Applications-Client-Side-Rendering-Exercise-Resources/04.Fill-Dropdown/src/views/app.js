@@ -24,7 +24,7 @@ async function addItem(e) {
     const inputRef = document.getElementById("itemText");
     const text = inputRef.value;
     inputRef.value = "";
-    await dataService.postNewOption({text });
+    await dataService.postNewOption({text});
     onLoad();
 }
 
