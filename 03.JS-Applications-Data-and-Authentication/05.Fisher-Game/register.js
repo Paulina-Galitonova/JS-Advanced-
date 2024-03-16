@@ -9,5 +9,6 @@ async function register(data) {
 
     setUserData(await post('/users/register', data))
 
-    location = '/'
+    location = 'index.html'
+
 }

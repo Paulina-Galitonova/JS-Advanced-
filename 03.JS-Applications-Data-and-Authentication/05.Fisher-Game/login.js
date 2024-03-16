@@ -6,5 +6,5 @@ document.querySelector('form').addEventListener('submit', manageSubmit(login))
 async function login(data) {
     setUserData(await post('/users/login', data))
 
-    location = '/'
+    location = 'index.html'
 }
