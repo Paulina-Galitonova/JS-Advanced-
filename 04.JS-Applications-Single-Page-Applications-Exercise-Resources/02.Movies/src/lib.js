@@ -10,5 +10,5 @@ function render(templateResult) {
 export {
     render,
     html,
-    page
+    page,
 }
