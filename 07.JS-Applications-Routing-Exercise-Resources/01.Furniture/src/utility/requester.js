@@ -38,19 +38,19 @@ async function requester(method, url, data) {
 
 
 async function get(url) {
-    return requester("GET", url);
+    return await requester("GET", url);
 }
 
 async function post(url, data) {
-    return requester("POST", url, data);
+    return await requester("POST", url, data);
 }
 
 async function put(url, data) {
-    return requester("PUT", url, data);
+    return await requester("PUT", url, data);
 }
 
 async function del(url) {
-    return requester("DELETE", url);
+    return await requester("DELETE", url);
 }
 
 export const api ={
