@@ -1,32 +1,49 @@
+import { searchByQuery } from "../data/motorcycles.js";
 import { html, page, render } from "../lib.js";
+import { createSubmitHandler } from "../util.js";
 
-
-const searchTemp=()=>html`<section id="search">
-
-<div class="form">
-  <h4>Search</h4>
-  <form class="search-form">
-    <input
-      type="text"
-      name="search"
-      id="search-input"
-    />
-    <button class="button-list">Search</button>
-  </form>
-</div>
-<h4 id="result-heading">Results:</h4>
+const searchTemp = (handler, result) => html`
+  <section id="search">
+    <div class="form">
+      <h4>Search</h4>
+      <form class="search-form" @submit=${handler}>
+        <input type="text" name="search" id="search-input" />
+        <button type="submit" class="button-list">Search</button>
+      </form>
+    </div>
+    <h4 id="result-heading">Results:</h4>
+    ${result ? showResultTemp(result) : ""}
+  </section>`;
+  
+const showResultTemp = (result) => html`
   <div class="search-result">
- <h2 class="no-avaliable">No result.</h2>
-  <!--If there are matches display a div with information about every motorcycle-->
- <div class="motorcycle">
-  <img src="./images/Honda Hornet.png" alt="example1" />
-  <h3 class="model">Honda Hornet</h3>
-    <a class="details-btn" href="">More Info</a>
-</div>
+    ${result.length
+      ? result.map(
+          (x) => html`
+            <div class="motorcycle">
+              <img src="${x.imageUrl}" alt="example1" />
+              <h3 class="model">${x.model}</h3>
+              <a class="details-btn" href="/catalog/${x._id}">More Info</a>
+            </div>`
+        )
+      : html`
+          <h2 class="no-available">No results.</h2>
+        `}
   </div>
-        </section>`
+`;
 
+export function showSearchView() {
+  const handler = createSubmitHandler(onSearch);
+  render(searchTemp(handler));
+}
 
-export function showSearchView(ctx){
-    render(searchTemp());
-    }
+async function onSearch(data, form) {
+  const { search } = data;
+
+  if(!search){
+    return alert("no query")
+  }
+
+  const result = await searchByQuery(search);
+  render(searchTemp(createSubmitHandler(onSearch), result));
+}
